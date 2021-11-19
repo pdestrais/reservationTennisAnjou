@@ -3,8 +3,8 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"start": "cp .env.prod .env && node server/server.js",
-		"startdev": "cp .env.dev .env && node --inspect server/server.js"
+		"start": "cp .env.prod .env && node server.js",
+		"startdev": "cp .env.dev .env && node --inspect server.js"
 	},
 	"dependencies": {
 		"axios": "^0.18.0",

@@ -7,7 +7,7 @@ var jwt = require("jsonwebtoken");
 var crypto = require("crypto");
 var https = require("https");
 var dotenv = require("dotenv").config();
-var environment = require("../package.json");
+var environment = require("./package.json");
 var nodemailer = require('nodemailer');
 var jsrender = require('jsrender');
 
@@ -1635,11 +1635,11 @@ app.get("/api/ping", function (request, response, next) {
 });
 
 //serve static file (index.html, images, css)
-app.use(express.static(__dirname + "/../reservationTerrainApp/client"));
+app.use(express.static(__dirname + "/reservationTerrainApp/client"));
 
 app.get("*", function (request, response) {
   response.sendFile("index.html", {
-    root: "./reservationTerrainApp/client",
+    root: "./reservationTerrainApp/client/",
   });
 });
 
