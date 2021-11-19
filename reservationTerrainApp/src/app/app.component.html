@@ -1,0 +1,11 @@
+<app-ui-top-navigation></app-ui-top-navigation>
+
+<!--<app-ui-sub-navigation [title]="(observable$ | async)?.title" [description]="(observable$ | async)?.text"></app-ui-sub-navigation>
+-->
+<div class="main">
+  <router-outlet></router-outlet>
+  <alert></alert>
+</div>
+
+<app-ui-sub-navigation [title]="'Contact'" [description]="'philippe.destrais@gmail.com'"></app-ui-sub-navigation>
+<router-outlet name='modal'></router-outlet>

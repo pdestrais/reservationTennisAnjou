@@ -1,0 +1,15 @@
+.p-field * {
+  /* display: block; */
+}
+
+/* .p-field>label {
+  margin-top: 1em;
+} */
+
+input {
+  width: 100%
+}
+
+p {
+  margin: 1rem 0rem 1rem 0rem;
+}

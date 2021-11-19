@@ -1,0 +1,5 @@
+---
+applications:
+  - name: reservation
+    host: anjou-tennis
+    memory: 128M

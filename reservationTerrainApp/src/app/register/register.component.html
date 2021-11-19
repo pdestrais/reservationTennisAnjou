@@ -1,0 +1,60 @@
+﻿<div>
+  <h2>Formulaire d'enregistrement</h2>
+  <p>Ce site est réservé aux habitants du domaine d'Anjou. Si vous faites partie du domaine d'Anjou, vous pouvez faire
+    une demande d'enregistrement pour qu"un compte donnant accès à ce site soit créé. Veuillez pour ce faire remplir le
+    formulaire suivant</p>
+  <form name="form" #f="ngForm" novalidate>
+    <div class="p-grid">
+      <div class="p-field p-col-12 p-md-6">
+        <label for="firstname">Prénom</label>
+        <input id="firstname" name="firstname" type="text" aria-describedby="Votre prénom"
+          [ngClass]="{'p-invalid':firstname.invalid && firstname.touched}" pInputText [(ngModel)]="model.firstname"
+          #firstname="ngModel" required />
+        <small *ngIf="firstname.invalid && firstname.touched" class='p-error'>Le prénom est requis</small>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="lastname">Nom</label>
+        <input id="lastname" name="lastname" type="text" aria-describedby="Votre prénom"
+          [ngClass]="{'p-invalid':lastname.invalid && lastname.touched}" pInputText [(ngModel)]="model.lastname"
+          #lastname="ngModel" required />
+        <small *ngIf="lastname.invalid && lastname.touched" class='p-error'>Le nom est requis</small>
+      </div>
+      <div class="p-field p-col-12">
+        <label for="address">Adresse</label>
+        <input id="address" name="address" type="text" aria-describedby="Votre adresse"
+          [ngClass]="{'p-invalid':address.invalid && address.touched}" pInputText [(ngModel)]="model.address"
+          #address="ngModel" required />
+        <small *ngIf="address.invalid && address.touched" class='p-error'>L'adresse est requise</small>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="email">e-mail</label>
+        <input id="email" name="email" type="text" aria-describedby="Votre prénom"
+          [ngClass]="{'p-invalid':email.invalid && email.touched}" pInputText [(ngModel)]="model.email" #email="ngModel"
+          required />
+        <small *ngIf="email.invalid && email.touched" class='p-error'>L'adresse mail est requise</small>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="phone">N° de téléphone</label>
+        <input id="phone" name="phone" type="text" aria-describedby="Votre prénom"
+          [ngClass]="{'p-invalid':phone.invalid && phone.touched}" pInputText [(ngModel)]="model.phone" #phone="ngModel"
+          required />
+        <small *ngIf="phone.invalid && phone.touched" class='p-error'>Le numéro de téléphone est requis</small>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="username">Nom d'utilisateur</label>
+        <input id="username" name="username" type="username"
+          aria-describedby="Le nom d'utilisateur avec lequel vous vous connecterez"
+          [ngClass]="{'p-invalid':username.invalid && (username.dirty || username.touched)}" pInputText
+          [(ngModel)]="model.username" #username="ngModel" required />
+        <small *ngIf="username.invalid && (username.dirty || username.touched)" class='p-error'>Le nom d'utilisateur est
+          requis</small>
+      </div>
+      <div class="p-col-12 p-md-6"></div>
+    </div>
+  </form>
+      <div class="p-d-flex p-jc-center">
+        <div class="p-mx-auto"><button [disabled]="!f.form.valid" pButton type="button" icon="pi pi-check" iconPos="left" label="Enregistrer"
+            (click)="register()"></button></div>
+        <div class="p-mx-auto"><button [ngStyle]="{'backgroundColor':'var(--gray-600)', 'border-color':'var(--gray-800)'}" pButton type="button" icon="pi pi-times" iconPos="left" label="Annuler" (click)="backHome()"></button></div>
+      </div>
+</div>

@@ -1,0 +1,12 @@
+:host {
+  padding: 10px;
+  display: block;
+  border-bottom: 1px solid #aaaaaa;
+  background-color: black;
+  color: rgb(207, 206, 206);
+}
+
+p {
+  text-align: center;
+  font-size: small;
+}

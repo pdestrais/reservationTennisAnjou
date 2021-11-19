@@ -1,0 +1,7 @@
+.p-field * {
+  display: block;
+}
+
+.p-field>label {
+  margin-top: 1em;
+}

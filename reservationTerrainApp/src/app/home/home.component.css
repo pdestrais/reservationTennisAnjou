@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  width:30%;
+}
+
+.welcome {
+  padding: 15px;
+ width: 100%;
+  margin-top: 10px;
+  color: rgb(88, 88, 88);
+}
+
+.image {
+     width: 300px;
+     height: 150px;
+     background-image: url(../../assets/images/tennis-court-with-artificial-grass.png);
+     background-size: 300px;
+      align-content: center;
+
+}
+
+@media all and (min-width: 700px) {
+.image {
+  width: 250px;
+  height: 400px;
+  background-image: url(../../assets/images/tennis-court-with-artificial-grass.png);
+  background-size: 780px;
+  align-content: center;
+  justify-content: center;
+  background-position: center;
+  background-position-x: 430px;
+}
+.welcome {
+  width: 60%;
+}
+}
+
+@media all and (min-width: 960px) {
+.image {
+  width: 350px;
+  height: 400px;
+  background-image: url(../../assets/images/tennis-court-with-artificial-grass.png);
+  background-size: 780px;
+  align-content: center;
+  justify-content: center;
+  background-position: center;
+  background-position-x: 465px;
+}
+.welcome {
+  width: 60%;
+}
+
+}
+

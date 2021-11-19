@@ -1,0 +1,41 @@
+<div class="content-section implementation">
+  <full-calendar #calendar [deepChangeDetection]="true" [options]="options"></full-calendar>
+  <p-dialog header="Réservation de : {{event.title}}" [(visible)]="dialogVisible"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-12 p-md-12">
+            Vous pouvez modifier ou supprimer votre réservation
+</div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="start">Date début</label>
+<!--         <p-calendar [(ngModel)]="startDate" dateFormat="yy-mm-dd" dataType="string" (onChange)="handleTimeChanges($event)"></p-calendar>
+ -->        <p-calendar [(ngModel)]="startDate" dateFormat="yy-mm-dd" dataType="string"></p-calendar>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="start">Heure début</label>
+        <p-dropdown [options]="times" [(ngModel)]="startTime" [style]="{'width':'140px'}"
+          placeholder="Heure début"></p-dropdown>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="start">Date fin : </label>
+        <label for="start">{{endDate}}</label>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="start">Heure fin : </label>
+        <label for="start">{{endTime}} </label>
+      </div>
+    </div>
+
+
+      <p-footer>
+        <div *ngIf="allowToModify" class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+          <button type="button" pButton icon="fa-close" (click)="deleteEvent()" label="Supprimer"
+            [disabled]="!event?._id"></button>
+          <button *ngIf="event.id" type="button" pButton icon="fa-check" (click)="saveEvent()" label="Modifier réservation"
+            [disabled]="!startTime&&!endTime"></button>
+          <button *ngIf="!event.id" type="button" pButton icon="fa-check" (click)="saveEvent()" label="Confirmer Réservation"
+            [disabled]="!startTime&&!endTime"></button>
+        </div>
+      </p-footer>
+  </p-dialog>
+</div>

@@ -1,0 +1,72 @@
+/* You can add global styles to this file, and also import other style files */
+@import url("../node_modules/@fortawesome/fontawesome-free/css/all.css");
+@import url("../node_modules/primeflex/primeflex.min.css");
+@import url("../node_modules/primeicons/primeicons.css");
+@import url("../node_modules/primeng/resources/themes/saga-blue/theme.css");
+@import url("../node_modules/primeng/resources/primeng.min.css");
+@import url("../node_modules/@fullcalendar/timegrid/main.min.css");
+@import url("../node_modules/@fullcalendar/daygrid/main.min.css");
+
+/* Basic styling */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: sans-serif;
+  font-size: 16px;
+    background-color: #f8f8f8;
+}
+
+
+
+/* old stuff */
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 50px;
+  height: 50px;
+  margin: -25px 0 0 -25px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 1s linear infinite;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #555;
+  border-radius: 50%;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.fc-content {
+    color: white;
+}
+
+.fc-today {
+  background: lightgrey !important;
+}
+
+.fc .fc-col-header-cell-cushion {
+  display: inline-block;
+  padding: 2px 4px;
+  color: black;
+}
+
+@media screen and (max-width:700px) {
+  .fc .fc-toolbar-title {
+    font-size: 1em !important;
+    margin: 0.5em !important;
+  }
+
+  .fc .fc-toolbar {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+}

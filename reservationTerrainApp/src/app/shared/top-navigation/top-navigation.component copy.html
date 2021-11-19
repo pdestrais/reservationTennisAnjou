@@ -1,0 +1,213 @@
+<!--<ul class="topnav" #topnav>
+  <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+  <li><a routerLink="/profile" routerLinkActive="active">Profile</a></li>
+  <li><a routerLink="/weather" routerLinkActive="active">Weather</a></li>
+  <li><a routerLink="/schedule" routerLinkActive="active">Schedule</a></li>
+  <li class="icon">
+    <a (click)="toggle()">&#9776;</a>
+  </li>
+</ul>
+-->
+
+<!--<div class="ui-g">
+    <div class="ui-g-8"><p-tabMenu [model]="items"></p-tabMenu></div>
+    <div class="ui-g-4">Phil is logged</div>
+</div>
+-->
+
+
+<!-- boostrap nav -->
+<!-- <nav class="navbar navbar-expand-lg nav-pills navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Tennis du Domaine d'anjou</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item ms-5">
+          <a class="nav-link active" aria-current="page" href="#">Acceuil</a>
+        </li>
+        <a class="nav-link" routerLink="/schedule">Occupation du terrain</a>
+        <a class="nav-link" routerLink="/members">Membres <span class="sr-only">(current)</span></a>
+      </ul>
+        <span *ngIf="loggedInUser" class="navbar-text" style="border-right-style: outset;padding-right:10px;">
+          Bienvenue {{loggedInUser.username}}
+        </span>
+        <form class="d-flex">
+          <a *ngIf="!loggedInUser" href="#" class="btn btn-dark" role="button" aria-pressed="true"
+            routerLink="/register">Enregistrement</a>
+        </form>
+        <span class="navbar-text" style="border-right-style: outset;padding-right:10px;"></span>
+        <span class="navbar-text" style="padding-right:10px;"></span>
+        <form class="d-flex">
+          <a *ngIf="!loggedInUser" href="#" class="btn btn-success" role="button" aria-pressed="true"
+            routerLink="/login">Login</a>
+          <button *ngIf="loggedInUser" class="btn btn-outline-success" style="margin-left: 0.5em;" type="button"
+            (click)="logout()">logout</button>
+        </form>
+        </div>
+  </div>
+</nav>
+ -->
+
+<!-- <p-toolbar>
+  <div class="p-toolbar-group-left">
+    <li class="logo"><a href="#">Tennis Club Domaine d'Anjou</a></li>
+    <li class="item"><a href="#">Acceuil</a></li>
+    <li class="item"><a href="/#/schedule">Occupation du terrain</a></li>
+    <li class="item"><a href="/#/member">Membres</a></li>
+    <li class="item"><a href="#">Contact</a></li>
+    </div>
+    
+    <div class="p-toolbar-group-right">
+    <div *ngIf="loggedInUser"><li class="item">Bienvenue {{loggedInUser.username}}</li></div>
+        <p-button icon="pi pi-search"></p-button>
+        <p-button icon="pi pi-calendar" styleClass="p-button-success"></p-button>
+        <p-button icon="pi pi-times" styleClass="p-button-danger">Login</p-button>
+    </div>
+</p-toolbar>
+ -->
+
+<nav>
+  <ul class="menu" [ngClass]="{'active' : toggleOn}">
+    <li class="logo"><a href="#">Tennis Club Domaine d'Anjou</a></li>
+<!--     <li class="item"><a href="#">Acceuil</a></li>
+ -->
+     <li class="item"><a href="/#/schedule">Occupation du terrain</a></li>
+    <li class="item"><a href="/#/members">Membres</a></li>
+    <li class="item"><a href="#">Contact</a></li>
+    <li *ngIf="loggedInUser" class="item"><p>Bienvenue {{loggedInUser.username}}</p></li>
+    <li *ngIf="!loggedInUser" class="item button"><a href="/#/login">Connection</a></li>
+    <li *ngIf="loggedInUser" class="item button"><a (click)="logout()">Déconnection</a></li>
+    <li class="item button secondary" routerLink="/register"><a href="/#/register">Enregistrer</a></li>
+    <li #toggle class="toggle">
+      <a [routerLink]="" (click)="toggleMenu()">
+        <div *ngIf="!toggleOn"><i class="fas fa-bars"></i></div>
+        <div *ngIf="toggleOn"><i class="pi pi-times"></i></div>
+      </a>
+    </li>
+  </ul>
+  <ul class="parentcontainer">
+     <div class="childContainer1">
+        <div>AAAAAAAAAAAAA</div>
+        <div>BBBBBBBBBBBBBBBBB</div>
+   </div>
+    <div class="childContainer2">
+
+     <div>CCCCCCCCCCC</div>
+    <div>DDDDDDDDDD</div>
+    <div>EEEEEEEEEEEEE</div>
+     </div>
+
+
+  </ul>
+</nav>
+
+<!-- <nav class="nav nav-pills navbar-expand-lg bg-light nav-fill">
+      <div class="container-fluid">
+
+  <a class="navbar-brand me-auto mb-2 mb-lg-0" href="#">Réservation Tennis du Domaine d'anjou</a>
+  <a class="nav-link active" aria-current="page" routerLink="/schedule">Occupation du terrain</a>
+  <a class="nav-link" routerLink="/members">Membres <span class="sr-only">(current)</span></a>
+    <span *ngIf="loggedInUser" class="navbar-text" style="border-right-style: outset;padding-right:10px;">
+      Bienvenue {{loggedInUser.username}}
+    </span>
+  <form class="form-inline">
+    <a *ngIf="!loggedInUser" href="#" class="btn btn-success" role="button" aria-pressed="true"
+      routerLink="/login">Login</a>
+    <button *ngIf="loggedInUser" class="btn btn-outline-success" style="margin-left: 0.5em;" type="button"
+      (click)="logout()">logout</button>
+  </form>
+  </div>
+</nav>
+ -->
+<!-- <nav class="navbar navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#">Réservation Tennis du Domaine d'anjou</a>
+  <ul class="nav nav-pills">
+    <li class="nav-item active"><a class="nav-link" aria-current="page" routerLink="/schedule">Occupation du terrain</a></li>
+    <li class="nav-item"><a class="nav-link" routerLink="/members">Membres <span class="sr-only">(current)</span></a></li>
+  </ul>
+  <ul *ngIf="loggedInUser" class="nav navbar-nav navbar-right">
+    <li><span class="navbar-text" style="border-right-style: outset;padding-right:10px;">
+      Bienvenue {{loggedInUser.username}}
+    </span></li>
+  </ul>
+  <form class="form-inline">
+    <a *ngIf="!loggedInUser" href="#" class="btn btn-success" role="button" aria-pressed="true" routerLink="/login">Login</a>
+    <button *ngIf="loggedInUser" class="btn btn-outline-success" style="margin-left: 0.5em;" type="button" (click)="logout()">logout</button>
+  </form>
+
+</nav>  
+ -->
+<!--<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container"> 
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span> 
+            </button>
+            <a target="_blank" href="#" class="navbar-brand">My sApp.</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#">Inicio</a></li>
+                <li class="active"><a href="http://bootsnipp.com/snippets/featured/nav-account-manager" target="_blank">Inspirado en este ejemplo</a></li>
+                 <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">DropDown
+                    <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Link 2</a></li>
+                    </ul>
+                 </li>              
+             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-user"></span> 
+                        <strong>Nombre</strong>
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <div class="navbar-login">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <p class="text-center">
+                                            <span class="glyphicon glyphicon-user icon-size"></span>
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <p class="text-left"><strong>Nombre Apellido</strong></p>
+                                        <p class="text-left small">correoElectronico@email.com</p>
+                                        <p class="text-left">
+                                            <a href="#" class="btn btn-primary btn-block btn-sm">Actualizar Datos</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="navbar-login navbar-login-session">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <p>
+                                            <a href="#" class="btn btn-danger btn-block">Cerrar Sesion</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>-->
