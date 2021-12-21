@@ -5,3 +5,21 @@
 .p-field>label {
   margin-top: 1em;
 }
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.centerButton {
+  text-align: center;
+}
+
+a {
+  text-decoration: underline;
+}
+
+a:hover {
+  color: blue;
+}

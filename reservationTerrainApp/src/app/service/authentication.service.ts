@@ -14,7 +14,7 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient) {
     if (environment.production) this.backendURL = window.location.origin;
-    else this.backendURL = 'http://localhost:5001'; // for dev purposes
+    else this.backendURL = environment.APIServer; // for dev purposes
   }
 
   login(username: string, password: string) {
@@ -27,20 +27,10 @@ export class AuthenticationService {
         map((response: any) => {
           // login successful if there's a jwt token in the response
           //if username or password is not correct, a message is returned by the server
-          if ((response.code = !'OK')) {
-            switch (response.code) {
-              case 'BadPassword':
-                throw new Error('Mot de passe incorrect');
-              case 'LoginUsernameNotExist':
-                throw new Error("Nom d'utilisateur inconnu");
-              case 'NoUsername':
-                throw new Error("Pas de nom d'utilisateur");
-              case 'NoPassword':
-                throw new Error('Pas de mot de passe');
-            }
-          } else if (response && response.user && response.user.token) {
+          if (response && response.user && response.user.token) {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('currentUser', JSON.stringify(response.user));
+            if (response.code == 'changePassword') return 'changePassword';
           }
         }),
         catchError((error) => {
@@ -57,10 +47,7 @@ export class AuthenticationService {
               default:
                 return throwError('Erreur technique');
             }
-          } else
-            return throwError(
-              error.message || error.json().error || 'Server error'
-            );
+          } else return throwError(error.message || error.json().error || 'Server error');
         })
       );
   }

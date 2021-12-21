@@ -4,9 +4,7 @@
 -->
 <p-dataView [value]="users" [paginator]="true" [rows]="5">
   <ng-template pTemplate="header">
-    <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
-      Liste des membres
-    </div>
+    <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">Liste des membres</div>
   </ng-template>
 
   <ng-template let-user pTemplate="listItem">
@@ -26,8 +24,11 @@
           <span class="mytooltiptext">Visualiser données membre</span>
         </i>
  -->
-        <i *ngIf="user.username == loggedInUser.username || loggedInUser.admin" class="fas fa-user-edit mytooltip"
-          (click)="editUser(user)">
+        <i
+          *ngIf="user.username == loggedInUser.username || loggedInUser.admin"
+          class="fas fa-user-edit mytooltip"
+          (click)="editUser(user)"
+        >
           <span class="mytooltiptext">Mise à jour des données</span>
         </i>
         <i *ngIf="user.username == loggedInUser.username" class="fa fa-key mytooltip" (click)="changeUserPwd(user)">
@@ -38,7 +39,12 @@
         </i>
       </div>
     </div>
-
+    <p-confirmDialog
+      header="Confirmation"
+      icon="pi pi-exclamation-triangle"
+      [style]="{ width: '50vw' }"
+      [baseZIndex]="10000"
+    ></p-confirmDialog>
     <!--     </div>
  -->
   </ng-template>
@@ -135,10 +141,20 @@
 </p-dataView>
 <a *ngIf="loggedInUser.admin" [routerLink]="['/register']" class="btn btn-link">Créer nouvel utilisateur</a>
 
-<p-dialog header="Details membre" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
-  width="600" (onAfterHide)="onDialogHide()">
-  <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="selectedUser"
-    style="font-size: 16px; text-align: center; padding: 20px">
+<p-dialog
+  header="Details membre"
+  [(visible)]="displayDialog"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  width="600"
+  (onAfterHide)="onDialogHide()"
+>
+  <div
+    class="ui-grid ui-grid-responsive ui-fluid"
+    *ngIf="selectedUser"
+    style="font-size: 16px; text-align: center; padding: 20px"
+  >
     <div class="ui-grid-row">
       <div class="ui-grid-col-4">nom d'utilisateur:</div>
       <div class="ui-grid-col-8">{{ selectedUser.username }}</div>
@@ -165,124 +181,197 @@
     </div>
   </div>
 </p-dialog>
-<p-dialog header="Modification de données" [(visible)]="editDialog" [responsive]="true" showEffect="fade" [modal]="true"
-  width="600" (onAfterHide)="onDialogHide()">
+<p-dialog
+  header="Modification de données"
+  [(visible)]="editDialog"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  width="600"
+  (onAfterHide)="onDialogHide()"
+>
   <div *ngIf="selectedUser">
     <form [formGroup]="memberForm" (ngSubmit)="update()">
       <div class="p-field">
         <label for="firstname">Prénom</label>
-        <input id="firstname" formControlName="firstname" type="text" aria-describedby="username2-help" [ngClass]="{
-            'p-invalid':
-              !f.firstname.valid &&
-              f.firstname.dirty &&
-              f.firstname.errors?.required
-          }" pInputText />
-        <small *ngIf="
-            !f.firstname.valid &&
-            f.firstname.dirty &&
-            f.firstname.errors?.required
-          " class="p-error">Le prénom est requis</small>
+        <input
+          id="firstname"
+          formControlName="firstname"
+          type="text"
+          aria-describedby="username2-help"
+          [ngClass]="{
+            'p-invalid': !f.firstname.valid && f.firstname.dirty && f.firstname.errors?.required
+          }"
+          pInputText
+        />
+        <small *ngIf="!f.firstname.valid && f.firstname.dirty && f.firstname.errors?.required" class="p-error"
+          >Le prénom est requis</small
+        >
       </div>
       <div class="p-field">
         <label for="lastname">Nom</label>
-        <input id="lastname" formControlName="lastname" type="text" aria-describedby="lastname-help" [ngClass]="{
-            'p-invalid':
-              !f.lastname.valid &&
-              f.lastname.dirty &&
-              f.lastname.errors?.required
-          }" pInputText />
-        <small *ngIf="
-            !f.lastname.valid && f.lastname.dirty && f.lastname.errors?.required
-          " class="p-error">Le nom est requis</small>
+        <input
+          id="lastname"
+          formControlName="lastname"
+          type="text"
+          aria-describedby="lastname-help"
+          [ngClass]="{
+            'p-invalid': !f.lastname.valid && f.lastname.dirty && f.lastname.errors?.required
+          }"
+          pInputText
+        />
+        <small *ngIf="!f.lastname.valid && f.lastname.dirty && f.lastname.errors?.required" class="p-error"
+          >Le nom est requis</small
+        >
       </div>
       <div class="p-field">
         <label for="address">Adresse</label>
-        <input id="address" formControlName="address" type="text" aria-describedby="address-help" [ngClass]="{
-            'p-invalid':
-              !f.address.valid && f.address.dirty && f.address.errors?.required
-          }" pInputText />
-        <small *ngIf="
-            !f.address.valid && f.address.dirty && f.address.errors?.required
-          " class="p-error">L'adresse est requise</small>
+        <input
+          id="address"
+          formControlName="address"
+          type="text"
+          aria-describedby="address-help"
+          [ngClass]="{
+            'p-invalid': !f.address.valid && f.address.dirty && f.address.errors?.required
+          }"
+          pInputText
+        />
+        <small *ngIf="!f.address.valid && f.address.dirty && f.address.errors?.required" class="p-error"
+          >L'adresse est requise</small
+        >
       </div>
       <div class="p-field">
         <label for="email">e-mail</label>
-        <input id="email" formControlName="email" type="text" aria-describedby="email-help" [ngClass]="{
-            'p-invalid':
-              !f.email.valid && f.email.dirty && f.email.errors?.required
-          }" pInputText />
-        <small *ngIf="!f.email.valid && f.email.dirty && f.email.errors?.required" class="p-error">Le nom est
-          requis</small>
-        <small *ngIf="!f.email.valid && f.email.dirty && f.email.errors?.pattern" class="p-error">Votre email n'est pas
-          valable</small>
+        <input
+          id="email"
+          formControlName="email"
+          type="text"
+          aria-describedby="email-help"
+          [ngClass]="{
+            'p-invalid': !f.email.valid && f.email.dirty && f.email.errors?.required
+          }"
+          pInputText
+        />
+        <small *ngIf="!f.email.valid && f.email.dirty && f.email.errors?.required" class="p-error"
+          >Le nom est requis</small
+        >
+        <small *ngIf="!f.email.valid && f.email.dirty && f.email.errors?.pattern" class="p-error"
+          >Votre email n'est pas valable</small
+        >
       </div>
       <div class="p-field">
         <label for="phone">Téléphone</label>
-        <input id="phone" formControlName="phone" type="text" aria-describedby="username2-help" [ngClass]="{
-            'p-invalid':
-              !f.phone.valid && f.phone.dirty && f.phone.errors?.required
-          }" pInputText />
-        <small *ngIf="!f.phone.valid && f.phone.dirty && f.phone.errors?.required" class="p-error">Le Téléphone est
-          requis</small>
+        <input
+          id="phone"
+          formControlName="phone"
+          type="text"
+          aria-describedby="username2-help"
+          [ngClass]="{
+            'p-invalid': !f.phone.valid && f.phone.dirty && f.phone.errors?.required
+          }"
+          pInputText
+        />
+        <small *ngIf="!f.phone.valid && f.phone.dirty && f.phone.errors?.required" class="p-error"
+          >Le Téléphone est requis</small
+        >
       </div>
       <div class="p-field">
         <label for="username">Nom d'utilisateur</label>
-        <input id="username" formControlName="username" type="text" aria-describedby="username2-help" [ngClass]="{
-            'p-invalid':
-              !f.username.valid &&
-              f.username.dirty &&
-              f.username.errors?.required
-          }" pInputText />
-        <small *ngIf="
-            !f.username.valid && f.username.dirty && f.username.errors?.required
-          " class="p-error">Le nom d'utilisateur est requis</small>
-        <small *ngIf="
-            !!f.username.valid &&
-            f.username.dirty &&
-            f.username.errors?.whitespace
-          " class="p-error">Le nom d'utilisateur choisi ne peut pas contenir d'espace</small>
+        <input
+          id="username"
+          formControlName="username"
+          type="text"
+          aria-describedby="username2-help"
+          [ngClass]="{
+            'p-invalid': !f.username.valid && f.username.dirty && f.username.errors?.required
+          }"
+          pInputText
+        />
+        <small *ngIf="!f.username.valid && f.username.dirty && f.username.errors?.required" class="p-error"
+          >Le nom d'utilisateur est requis</small
+        >
+        <small *ngIf="!!f.username.valid && f.username.dirty && f.username.errors?.whitespace" class="p-error"
+          >Le nom d'utilisateur choisi ne peut pas contenir d'espace</small
+        >
       </div>
-      <button id="update" [disabled]="!memberForm.valid" pButton type="button" (click)="update()">
-        Modifier
-      </button>
+      <button id="update" [disabled]="!memberForm.valid" pButton type="button" (click)="update()">Modifier</button>
     </form>
   </div>
 </p-dialog>
-<p-dialog header="Changement mot de passe" [(visible)]="changePwdDialog" [responsive]="true" showEffect="fade"
-  [modal]="true" width="600" (onAfterHide)="onDialogHide()">
+<p-dialog
+  header="Changement mot de passe"
+  [(visible)]="changePwdDialog"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  width="600"
+  (onAfterHide)="onDialogHide()"
+>
   <div *ngIf="model">
     <form name="form" [formGroup]="changePwdForm" (ngSubmit)="updatePwd()">
       <div class="p-field">
         <label for="currentPassword">Mot de passe actuel</label>
-        <input id="currentPassword" formControlName="currentPassword" type="text" aria-describedby="currentPassword-help" [ngClass]="{
-            'p-invalid':
-              !fp.currentPassword.valid && fp.currentPassword.dirty && fp.currentPassword.errors?.required
-          }" pInputText />
-        <small *ngIf="!fp.currentPassword.valid && fp.currentPassword.dirty && fp.currentPassword.errors?.required" class="p-error">Le mot de passe
-          actuel est requis</small>
+        <input
+          id="currentPassword"
+          formControlName="currentPassword"
+          type="text"
+          aria-describedby="currentPassword-help"
+          [ngClass]="{
+            'p-invalid': !fp.currentPassword.valid && fp.currentPassword.dirty && fp.currentPassword.errors?.required
+          }"
+          pInputText
+        />
+        <small
+          *ngIf="!fp.currentPassword.valid && fp.currentPassword.dirty && fp.currentPassword.errors?.required"
+          class="p-error"
+          >Le mot de passe actuel est requis</small
+        >
       </div>
       <div class="p-field">
         <label for="newPassword">Nouveau mot de passe actuel</label>
-        <input id="newPassword" formControlName="newPassword" type="text" aria-describedby="newPassword-help" [ngClass]="{
-            'p-invalid':
-              !fp.newPassword.valid && fp.newPassword.dirty && fp.newPassword.errors?.required
-          }" pInputText />
-        <small *ngIf="!fp.newPassword.valid && fp.newPassword.dirty && fp.newPassword.errors?.required" class="p-error">Le mot de passe
-          actuel est requis</small>
+        <input
+          id="newPassword"
+          formControlName="newPassword"
+          type="text"
+          aria-describedby="newPassword-help"
+          [ngClass]="{
+            'p-invalid': !fp.newPassword.valid && fp.newPassword.dirty && fp.newPassword.errors?.required
+          }"
+          pInputText
+        />
+        <small *ngIf="!fp.newPassword.valid && fp.newPassword.dirty && fp.newPassword.errors?.required" class="p-error"
+          >Le mot de passe actuel est requis</small
+        >
       </div>
-       <div class="p-field">
+      <div class="p-field">
         <label for="confirmationPassword">Confirmation nouveau mot de passe</label>
-        <input id="confirmationPassword" formControlName="confirmationPassword" type="text" aria-describedby="confirmationPassword-help" [ngClass]="{
+        <input
+          id="confirmationPassword"
+          formControlName="confirmationPassword"
+          type="text"
+          aria-describedby="confirmationPassword-help"
+          [ngClass]="{
             'p-invalid':
-              !fp.confirmationPassword.valid && fp.confirmationPassword.dirty && (fp.confirmationPassword.errors?.required || cpf.errors?.confirmpwdnotequalnewpwd)
-          }" pInputText />
-        <small *ngIf="!fp.confirmationPassword.valid && fp.confirmationPassword.dirty && fp.confirmationPassword.errors?.required" class="p-error">le nouveau password est requis</small>
-        <small *ngIf="fp.confirmationPassword.touched && cpf.errors?.confirmpwdnotequalnewpwd" class="p-error">les deux mots de passe (nouveau et confirmation) doivent être
-            identiques</small>
+              !fp.confirmationPassword.valid &&
+              fp.confirmationPassword.dirty &&
+              (fp.confirmationPassword.errors?.required || cpf.errors?.confirmpwdnotequalnewpwd)
+          }"
+          pInputText
+        />
+        <small
+          *ngIf="
+            !fp.confirmationPassword.valid && fp.confirmationPassword.dirty && fp.confirmationPassword.errors?.required
+          "
+          class="p-error"
+          >le nouveau password est requis</small
+        >
+        <small *ngIf="fp.confirmationPassword.touched && cpf.errors?.confirmpwdnotequalnewpwd" class="p-error"
+          >les deux mots de passe (nouveau et confirmation) doivent être identiques</small
+        >
       </div>
-        <button id="updatepwd" [disabled]="!changePwdForm.valid" class="btn btn-primary" pButton>
-          Modifier mot de passe
-        </button>
+      <button id="updatepwd" [disabled]="!changePwdForm.valid" class="btn btn-primary" pButton>
+        Modifier mot de passe
+      </button>
     </form>
   </div>
 </p-dialog>

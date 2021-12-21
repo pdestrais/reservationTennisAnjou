@@ -9,20 +9,17 @@ import {
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../service/user.service';
 import { AlertService } from '../service/alert.service';
 import { Subject } from 'rxjs/Subject';
+import { ConfirmationService } from 'primeng/api';
 
-const confirmPwdValidator: ValidatorFn = (
-  control: AbstractControl
-): ValidationErrors | null => {
+const confirmPwdValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const newpwd = control.get('newPassword');
   const confirmpwd = control.get('confirmationPassword');
 
-  return newpwd && confirmpwd && newpwd.value != confirmpwd.value
-    ? { confirmpwdnotequalnewpwd: true }
-    : null;
+  return newpwd && confirmpwd && newpwd.value != confirmpwd.value ? { confirmpwdnotequalnewpwd: true } : null;
 };
 
 @Component({
@@ -51,7 +48,9 @@ export class MembersComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private alertService: AlertService,
-    private router: Router
+    private confirmationService: ConfirmationService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -60,33 +59,18 @@ export class MembersComponent implements OnInit {
       lastname: ['', Validators.required],
       username: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.pattern('^[a-z]+$'),
-          this.noWhitespaceValidator,
-        ],
+        [Validators.required, Validators.minLength(6), Validators.pattern('^[a-z]+$'), this.noWhitespaceValidator],
       ],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-        ],
-      ],
+      email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
       address: ['', Validators.required],
       phone: ['', Validators.required],
     });
 
     this.changePwdForm = new FormGroup(
       {
-        currentPassword: new FormControl(this.currentPassword, [
-          Validators.required,
-        ]),
+        currentPassword: new FormControl(this.currentPassword, [Validators.required]),
         newPassword: new FormControl(this.newPassword, [Validators.required]),
-        confirmationPassword: new FormControl(this.confirmationPassword, [
-          Validators.required,
-        ]),
+        confirmationPassword: new FormControl(this.confirmationPassword, [Validators.required]),
       },
       { validators: confirmPwdValidator }
     );
@@ -101,10 +85,9 @@ export class MembersComponent implements OnInit {
       }
     );
     this.loggedInUser = JSON.parse(localStorage.getItem('currentUser')!);
-    this.userService.getChanges$().subscribe((users) => {
-      console.log('change observed on user data');
-      this.users = JSON.parse(JSON.stringify(users));
-    });
+    if (this.route.snapshot.paramMap.get('changePwd')) {
+      this.changeUserPwd(this.loggedInUser);
+    }
   }
 
   noWhitespaceValidator(control: FormControl) {
@@ -150,18 +133,28 @@ export class MembersComponent implements OnInit {
   }
 
   deleteUser(user: User): void {
-    this.selectedUser = user;
-    this.userService.delete(user._id, user._rev).subscribe(
-      (data) => {
-        console.log('user deleted');
-        this.alertService.success('Membre supprimé');
-        this.ngOnInit();
-      },
-      (error) => {
-        console.log('problem deleting user');
-        this.alertService.error(error);
-      }
-    );
+    this.confirmationService.confirm({
+      /* target: event.target, */
+      message: 'Etes-vous sûr de vouloir effectuer cette opération ?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.userService.delete(user._id, user._rev).subscribe(
+          (data) => {
+            console.log('user deleted');
+            this.alertService.success('Membre supprimé');
+            this.ngOnInit();
+          },
+          (error) => {
+            console.log('problem deleting user');
+            this.alertService.error(error);
+          }
+        );
+      } /* ,
+      reject: () => {
+        this.alertService.success('test');
+        console.log('delete canceled');
+      }, */,
+    });
   }
 
   update() {
@@ -190,27 +183,22 @@ export class MembersComponent implements OnInit {
     this.selectedUser = this.model;
     this.newPassword = this.changePwdForm.controls.newPassword.value;
     this.currentPassword = this.changePwdForm.controls.currentPassword.value;
-    this.confirmationPassword =
-      this.changePwdForm.controls.confirmationPassword.value;
+    this.confirmationPassword = this.changePwdForm.controls.confirmationPassword.value;
     if (this.newPassword != this.confirmationPassword) {
-      this.alertService.error(
-        'Les nouveaux deux mots de passe ne sont pas les mêmes.'
-      );
+      this.alertService.error('Les nouveaux deux mots de passe ne sont pas les mêmes.');
       this.loading = false;
     } else {
       this.loading = true;
-      this.userService
-        .updatePwd(this.model, this.currentPassword, this.newPassword)
-        .subscribe(
-          (data) => {
-            this.alertService.success('Mise à jour réussie', true);
-            this.router.navigate(['/members']);
-          },
-          (error) => {
-            this.alertService.error(error);
-            this.loading = false;
-          }
-        );
+      this.userService.updatePwd(this.model, this.currentPassword, this.newPassword).subscribe(
+        (data) => {
+          this.alertService.success('Mise à jour réussie', true);
+          this.router.navigate(['/members']);
+        },
+        (error) => {
+          this.alertService.error(error);
+          this.loading = false;
+        }
+      );
     }
     this.changePwdDialog = false;
   }
