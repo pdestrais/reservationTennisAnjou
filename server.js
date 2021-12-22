@@ -600,6 +600,7 @@ app.post("/api/user", function (request, response, next) {
 // - {message "update user data successfull", translateKey}
 app.post("/api/user/:id", function (request, response, next) {
   console.log("[/api/user/]api called with id : " + request.params.id + " and body : ", JSON.stringify(request.body));
+  const serverUrl = request.protocol + "://" + request.get("host");
 
   if (!request.body.hasOwnProperty("username")) {
     return response.status(400).send({
@@ -615,7 +616,7 @@ app.post("/api/user/:id", function (request, response, next) {
     url:
       process.env.environment == "dev"
         ? process.env.apiserver + "/api/upsertUserData"
-        : process.env.apiserver + "/api/upsertUserData",
+        : (process.env.apiserver || serverUrl) + "/api/upsertUserData",
     method: "post",
     data: {
       username: request.body.username,
@@ -814,6 +815,7 @@ app.post("/api/register", function (request, response, next) {
 // - username (mandatory)
 app.post("/api/resetPassword", function (request, response, next) {
   console.log("[resetPassword]api called with body : ", JSON.stringify(request.body));
+  const serverUrl = request.protocol + "://" + request.get("host");
 
   if (!request.body.hasOwnProperty("username")) {
     return response.status(400).send({
@@ -885,7 +887,7 @@ app.post("/api/resetPassword", function (request, response, next) {
           url:
             process.env.environment == "dev"
               ? process.env.apiserver + "/api/sendEMail"
-              : process.env.apiserver + "api/sendEMail",
+              : (process.env.apiserver || serverUrl) + "api/sendEMail",
           method: "POST",
           data: {
             to: userRequest.email,
@@ -955,6 +957,7 @@ app.post("/api/resetPassword", function (request, response, next) {
 // - {message, translateKey}
 app.post("/api/changePassword", function (request, response, next) {
   console.log("[changePassword]api called with body : ", JSON.stringify(request.body));
+  const serverUrl = request.protocol + "://" + request.get("host");
 
   if (!request.body.hasOwnProperty("username")) {
     return response.status(400).send({
@@ -1051,7 +1054,7 @@ app.post("/api/changePassword", function (request, response, next) {
               url:
                 process.env.environment == "dev"
                   ? process.env.apiserver + "/api/upsertUserData"
-                  : process.env.apiserver + "/api/upsertUserData",
+                  : (process.env.apiserver || serverUrl) + "/api/upsertUserData",
               method: "post",
               data: {
                 username: request.body.username,
@@ -1101,6 +1104,8 @@ app.post("/api/changePassword", function (request, response, next) {
 //    phone: request.body.phone || ""
 app.post("/api/processSignupRequest", function (request, response, next) {
   console.log("[processSignupRequest]api called with body : ", JSON.stringify(request.body));
+  const serverUrl = request.protocol + "://" + request.get("host");
+
   if (!request.body.hasOwnProperty("email") || !request.body.hasOwnProperty("username")) {
     return response.status(400).send({
       code: "NoEmailOrUsername",
@@ -1182,7 +1187,7 @@ app.post("/api/processSignupRequest", function (request, response, next) {
                   ? process.env.apiserver + //+ ':' +
                     /* port */
                     "/api/sendEMail"
-                  : process.env.apiserver + "/api/sendEMail",
+                  : (process.env.apiserver || serverUrl) + "/api/sendEMail",
               method: "POST",
               data: {
                 to: process.env.emailAdmin,
@@ -1201,7 +1206,9 @@ app.post("/api/processSignupRequest", function (request, response, next) {
                   url:
                     process.env.environment == "dev"
                       ? process.env.apiserver + "/api/approveUserSignupRequest/" + createUserReqResponse.data.id
-                      : process.env.apiserver + "/api/approveUserSignupRequest/" + createUserReqResponse.data.id,
+                      : (process.env.apiserver || serverUrl) +
+                        "/api/approveUserSignupRequest/" +
+                        createUserReqResponse.data.id,
                 },
                 template: "approveReqTmpl.html",
               },
@@ -1227,6 +1234,7 @@ app.post("/api/processSignupRequest", function (request, response, next) {
 // It will send registration confirmation on email address
 app.get("/api/approveUserSignupRequest/:id", function (request, response, next) {
   console.log("[approveUserSignupRequest]api called with parameter : ", JSON.stringify(request.params));
+  const serverUrl = request.protocol + "://" + request.get("host");
 
   // fetch request from user-mngmt table correponding to received id
   var reqID = request.params.id;
@@ -1262,7 +1270,7 @@ app.get("/api/approveUserSignupRequest/:id", function (request, response, next) 
                 ? process.env.apiserver /* ':' + */ +
                   /* port + */
                   "/api/sendEMail"
-                : process.env.apiserver + "/api/sendEMail",
+                : (process.env.apiserver || serverUrl) + "/api/sendEMail",
             method: "POST",
             data: {
               to: res.data.email,
@@ -1312,6 +1320,7 @@ app.get("/api/approveUserSignupRequest/:id", function (request, response, next) 
 // TODO change name into something more generic like : processRequestConfirmation
 app.get("/api/processUserRequestConfirmation/:id", function (request, response, next) {
   console.log("[processUserRequestConfirmation]api called with parameter : ", JSON.stringify(request.params));
+  const serverUrl = request.protocol + "://" + request.get("host");
 
   // Generate password
   var newPwd = Math.random().toString(36).slice(-8);
@@ -1347,7 +1356,7 @@ app.get("/api/processUserRequestConfirmation/:id", function (request, response, 
             url:
               process.env.environment == "dev"
                 ? process.env.apiserver + "/api/upsertUserData"
-                : process.env.apiserver + "/api/upsertUserData",
+                : (process.env.apiserver || serverUrl) + "/api/upsertUserData",
             method: "post",
             data: {
               username: res.data.username,
@@ -1370,7 +1379,7 @@ app.get("/api/processUserRequestConfirmation/:id", function (request, response, 
                 url:
                   process.env.environment == "dev"
                     ? process.env.apiserver + "/api/sendEMail"
-                    : process.env.apiserver + "/api/sendEMail",
+                    : (process.env.apiserver || serverUrl) + "/api/sendEMail",
                 method: "POST",
                 data: {
                   to: res.data.email,
@@ -1386,7 +1395,7 @@ app.get("/api/processUserRequestConfirmation/:id", function (request, response, 
                     url:
                       process.env.environment == "dev"
                         ? "http://localhost:4200/#/login"
-                        : process.env.apiserver + "/#/login",
+                        : (process.env.apiserver || serverUrl) + "/#/login",
                     text4: "On vous demandera de modifier votre mot de passe aussitôt après votre premier login.",
                   },
                   template: "confirmRegistrationTmpl.html",
@@ -1412,7 +1421,7 @@ app.get("/api/processUserRequestConfirmation/:id", function (request, response, 
             url:
               process.env.environment == "dev"
                 ? process.env.apiserver + "/api/upsertUserData"
-                : process.env.apiserver + "/api/upsertUserData",
+                : (process.env.apiserver || serverUrl) + "/api/upsertUserData",
             method: "post",
             data: {
               username: res.data.username,
@@ -1426,7 +1435,7 @@ app.get("/api/processUserRequestConfirmation/:id", function (request, response, 
             url:
               process.env.environment == "dev"
                 ? process.env.apiserver + "/api/sendEMail"
-                : process.env.apiserver + "/api/sendEMail",
+                : (process.env.apiserver || serverUrl) + "/api/sendEMail",
             method: "POST",
             data: {
               to: res.data.email,
@@ -1575,10 +1584,13 @@ app.delete("/api/user/:id/:rev", function (request, response, next) {
 });
 
 app.get("/api/ping", function (request, response, next) {
+  const serverUrl = request.protocol + "://" + request.get("host");
+
   resp = {
     status: "backend API server available",
     environment: {
       env: process.env.environment,
+      apiserver: serverUrl,
       dbHost: process.env.dbHost,
       dbHostServiceUsername: process.env.dbHostServiceUsername,
       secret: process.env.secret,
